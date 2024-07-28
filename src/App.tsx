@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
 
-function App() {
+import { TaskProvider } from "./context/taskContext";
+import { TaskList } from "./components/tasks/TaskList";
+import { SubTaskList } from "./components/tasks/SubTaskList";
+
+export const App = () => {
+  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <TaskProvider>
+      <div className="app">
+        <div className="task-list-container">
+          <TaskList setSelectedTaskId={setSelectedTaskId} />
+        </div>
+        <div className="subtask-list-container">
+          {selectedTaskId ? (
+            <SubTaskList taskId={selectedTaskId} />
+          ) : (
+            <div>Select a task to view subtasks</div>
+          )}
+        </div>
+      </div>
+    </TaskProvider>
   );
-}
-
-export default App;
+};
